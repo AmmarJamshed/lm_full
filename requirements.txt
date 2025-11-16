@@ -1,0 +1,6 @@
+streamlit
+web3==6.16.0
+Pillow
+imagehash
+requests
+python-dotenv
