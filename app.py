@@ -83,7 +83,8 @@ def mint_nft(metadata_uri):
     })
 
     signed = account.sign_transaction(tx)
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+    # FIXED: correct attribute is rawTransaction
+    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
     return tx_hash.hex()
 
 # -------------------------------------------------------
@@ -100,7 +101,7 @@ def create_auction(token_id, starting_bid):
     })
 
     signed = account.sign_transaction(tx)
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
     return tx_hash.hex()
 
 # -------------------------------------------------------
@@ -117,7 +118,7 @@ def place_bid(auction_id, bid_amount):
     })
 
     signed = account.sign_transaction(tx)
-    tx_hash = w3.eth.send_raw_transaction(signed.raw_transaction)
+    tx_hash = w3.eth.send_raw_transaction(signed.rawTransaction)
     return tx_hash.hex()
 
 # -------------------------------------------------------
@@ -131,10 +132,7 @@ def send_chat(sender, receiver, msg):
     })
 
 def get_chat(sender, receiver):
-    return supabase_select(
-        "chat_messages",
-        f"*"
-    ).json()
+    return supabase_select("chat_messages", "*").json()
 
 # -------------------------------------------------------
 # 9. UI
@@ -158,11 +156,16 @@ if page == "Mint Livestock NFT":
 
     if file:
         image = Image.open(file)
+
+        # FIX: Convert to RGB for JPEG compatibility
+        if image.mode != "RGB":
+            image = image.convert("RGB")
+
         st.image(image, caption="Uploaded Image")
 
-        img_bytes = io.BytesIO()
-        image.save(img_bytes, format="JPEG")
-        img_bytes = img_bytes.getvalue()
+        img_bytes_io = io.BytesIO()
+        image.save(img_bytes_io, format="JPEG")
+        img_bytes = img_bytes_io.getvalue()
 
         st.info("🔍 Running AI detection...")
         result = detect_livestock(img_bytes)
