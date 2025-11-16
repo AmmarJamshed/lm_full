@@ -1,6 +1,7 @@
-streamlit==1.32.0
+streamlit
 web3
 requests
 supabase-py
 python-dotenv
 Pillow
+
