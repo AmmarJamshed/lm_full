@@ -1,6 +1,7 @@
 streamlit
-web3==6.16.0
-Pillow
-imagehash
 requests
+web3
+supabase
 python-dotenv
+Pillow
+solcx
