@@ -2,8 +2,8 @@ from web3 import Web3
 from solcx import compile_standard, install_solc
 import json
 
-RPC_URL = "YOUR_SEPOLIA_RPC_URL"
-PRIVATE_KEY = "YOUR_PRIVATE_KEY"
+RPC_URL = st.secrets["blockchain"]["RPC_URL"]
+PRIVATE_KEY = st.secrets["blockchain"]["PRIVATE_KEY"]
 
 w3 = Web3(Web3.HTTPProvider(RPC_URL))
 account = w3.eth.account.from_key(PRIVATE_KEY)
@@ -39,3 +39,4 @@ receipt = w3.eth.wait_for_transaction_receipt(tx_hash)
 print("Deployed:", receipt.contractAddress)
 with open("contract_abi.json", "w") as f:
     json.dump(abi, f)
+
