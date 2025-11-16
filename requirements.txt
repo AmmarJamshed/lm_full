@@ -4,5 +4,5 @@ Pillow
 streamlit
 inference-sdk==0.9.13
 web3
-Pillow
 requests
+
